@@ -71,29 +71,35 @@ $(document).ready(function () {
 
   // Change image header
   $('#header-upload').change(function () {
-    var file = this.files[0];
-    if (file) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        // Mostrar la imagen cargada en el elemento de imagen
-        $('#frameHTML').contents().find('#template-img-header').attr("src", e.target.result);
-      }
-      reader.readAsDataURL(file); // Leer el archivo como URL de datos
+  var file = this.files[0];
+  if (file) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      // Mostrar la imagen cargada en el elemento de imagen
+      $('#frameHTML').contents().find('#template-img-header').attr("src", e.target.result);
+      // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
+      var altHeaderText = $('#input-alt-header').val();
+      $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
     }
-  });
+    reader.readAsDataURL(file); // Leer el archivo como URL de datos
+  }
+});
 
   // Change image title
-  $('#title-upload').change(function () {
-    var file = this.files[0];
-    if (file) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        // Mostrar la imagen cargada en el elemento de imagen
-        $('#frameHTML').contents().find('#template-img-title').attr("src", e.target.result);
-      }
-      reader.readAsDataURL(file); // Leer el archivo como URL de datos
+$('#title-upload').change(function () {
+  var file = this.files[0];
+  if (file) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      // Mostrar la imagen cargada en el elemento de imagen
+      $('#frameHTML').contents().find('#template-img-title').attr("src", e.target.result);
+      // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" de la imagen titular
+      var altTitleText = $('#input-alt-title').val();
+      $('#frameHTML').contents().find('#template-img-title').attr("alt", altTitleText);
     }
-  });
+    reader.readAsDataURL(file); // Leer el archivo como URL de datos
+  }
+});
 
   // Show/Hide Button
   $("#action-button").click(function (e) {
