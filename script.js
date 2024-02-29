@@ -70,13 +70,14 @@ $(document).ready(function () {
   });
 
   // Change image header
-  $('#header-upload').change(function () {
+$('#header-upload').change(function () {
   var file = this.files[0];
   if (file) {
     var reader = new FileReader();
     reader.onload = function (e) {
-      // Mostrar la imagen cargada en el elemento de imagen
-      $('#frameHTML').contents().find('#template-img-header').attr("src", e.target.result);
+      // Establecer la cadena específica en lugar de la URL de datos
+      var imgSrc = "<img src='cid:header'>";
+      $('#frameHTML').contents().find('#template-img-header').attr("src", imgSrc);
       // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
       var altHeaderText = $('#input-alt-header').val();
       $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
@@ -85,14 +86,15 @@ $(document).ready(function () {
   }
 });
 
-  // Change image title
+// Change image title
 $('#title-upload').change(function () {
   var file = this.files[0];
   if (file) {
     var reader = new FileReader();
     reader.onload = function (e) {
-      // Mostrar la imagen cargada en el elemento de imagen
-      $('#frameHTML').contents().find('#template-img-title').attr("src", e.target.result);
+      // Establecer la cadena específica en lugar de la URL de datos
+      var imgSrc = "<img src='cid:title'>";
+      $('#frameHTML').contents().find('#template-img-title').attr("src", imgSrc);
       // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" de la imagen titular
       var altTitleText = $('#input-alt-title').val();
       $('#frameHTML').contents().find('#template-img-title').attr("alt", altTitleText);
