@@ -175,4 +175,19 @@ $('#title-upload').change(function () {
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '-18px');
   });
 
+
+
+  $('#input-custom-text').on('input', function () {
+  var customText = $(this).val();
+  $("#frameHTML").contents().find('#template-custom-text').text(customText);
+});
+
+
+
+
+
+
+
+  
+
 });
