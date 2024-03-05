@@ -76,7 +76,7 @@ $('#header-upload').change(function () {
     var reader = new FileReader();
     reader.onload = function (e) {
       // Establecer la cadena específica en lugar de la URL de datos
-      var imgSrc = "<img src='cid:header'>";
+      var imgSrc = "cid:header";
       $('#frameHTML').contents().find('#template-img-header').attr("src", imgSrc);
       // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
       var altHeaderText = $('#input-alt-header').val();
@@ -93,7 +93,7 @@ $('#title-upload').change(function () {
     var reader = new FileReader();
     reader.onload = function (e) {
       // Establecer la cadena específica en lugar de la URL de datos
-      var imgSrc = "<img src='cid:title'>";
+      var imgSrc = "cid:title";
       $('#frameHTML').contents().find('#template-img-title').attr("src", imgSrc);
       // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" de la imagen titular
       var altTitleText = $('#input-alt-title').val();
