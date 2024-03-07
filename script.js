@@ -1,3 +1,4 @@
+// Reading assets params 
 var jsonHeader;
 var jsonTitle;
 var defaultTemplateHTML = '';
@@ -58,9 +59,7 @@ $(document).ready(function () {
   $(function () {
     document.getElementById("template-content").innerHTML = '<iframe id="frameHTML" src="./templates/default.html" width="100%" height="100%" frameborder="0" />';
   });
-
   // Change image header
-// Change header image
 $('#header-upload').change(function () {
   var file = this.files[0];
   if (file) {
@@ -72,23 +71,10 @@ $('#header-upload').change(function () {
       // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
       var altHeaderText = $('#input-alt-header').val();
       $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
-    var file = this.files[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            // Establecer la cadena específica en lugar de la URL de datos
-            var imgSrc = 'cid:header';  // Cambio aquí
-            $('#frameHTML').contents().find('#template-img-header').attr("src", imgSrc);
-            // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
-            var altHeaderText = $('#input-alt-header').val();
-            $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
-        };
-        reader.readAsDataURL(file); // Leer el archivo como URL de datos
     }
     reader.readAsDataURL(file); // Leer el archivo como URL de datos
   }
 });
-
 // Change image title
 $('#title-upload').change(function () {
   var file = this.files[0];
@@ -101,24 +87,10 @@ $('#title-upload').change(function () {
       // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" de la imagen titular
       var altTitleText = $('#input-alt-title').val();
       $('#frameHTML').contents().find('#template-img-title').attr("alt", altTitleText);
-    var file = this.files[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            // Establecer la cadena específica en lugar de la URL de datos
-            var imgSrc = 'cid:title';  // Cambio aquí
-            $('#frameHTML').contents().find('#template-img-title').attr("src", imgSrc);
-            // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" de la imagen titular
-            var altTitleText = $('#input-alt-title').val();
-            $('#frameHTML').contents().find('#template-img-title').attr("alt", altTitleText);
-        };
-        reader.readAsDataURL(file); // Leer el archivo como URL de datos
     }
     reader.readAsDataURL(file); // Leer el archivo como URL de datos
   }
 });
-
-
   // Show/Hide Button
   $("#action-button").click(function (e) {
     if ($(this).is(':checked')) {
@@ -150,7 +122,10 @@ $('#title-upload').change(function () {
     else
       $("#frameHTML").contents().find('#template-regards').html('<br/><br/>Regards, Stéfano Girardelli ❤');
   })
+
   // Export file HTML
+  function downloadInnerHTML (filename, elId, mimeType) {
+    $('#frameHTML').contents().find('#template-button').css('margin-top', '20px');
   function downloadInnerHTML(filename, elId, mimeType) {
     // Reemplazar completamente los atributos src en los elementos con imágenes codificadas en base64
     $('#frameHTML').contents().find('[src^="data:image/"]').each(function () {
@@ -159,35 +134,51 @@ $('#title-upload').change(function () {
         var newSrc = 'cid:img' + ($(this).index() + 1) + 'REPLACE_WITH_YOUR_UNDEFINED_STRING';
         $(this).attr('src', newSrc);
     });
+
     // Ajustar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '2px');
+
     var elHtml = '<!DOCTYPE html>' + document.getElementById('frameHTML').contentWindow.document.getElementsByTagName(elId)[0].outerHTML;
     var link = document.createElement('a');
     mimeType = mimeType || 'text/plain';
     link.setAttribute('download', filename);
     link.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(elHtml));
     link.click();
+  }
+
+  // Download button
+  $('#download-button').click(function () {
     // Restaurar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '-18px');
 }
+
 // Download button
 $('#download-button').click(function () {
     var filename = prompt("Escribe el nombre con el que quieres que sea guardado tu archivo:", "");
     if (filename != null) {
+      downloadInnerHTML(filename + '.html', 'html', 'text/html');
+      $.bootstrapGrowl("Your HTML file was downloaded with success!", { type: 'success', width: 350 });
         downloadInnerHTML(filename + '.html', 'html', 'text/html');
         $.bootstrapGrowl("Your HTML file was downloaded with success!", { type: 'success', width: 350 });
     } else {
+      $.bootstrapGrowl("Please, choose a filename to save", { type: 'danger', width: 350 });
         $.bootstrapGrowl("Please, choose a filename to save", { type: 'danger', width: 350 });
     }
+  });
 });
+
 $('#clipboard-button').click(function () {
+    // Reemplazar completamente los atributos src en los elementos con data:image/png;base64
+    $('#frameHTML').contents().find('[src^="data:image/png;base64"]').each(function () {
     // Reemplazar completamente los atributos src en los elementos con imágenes codificadas en base64
     $('#frameHTML').contents().find('[src^="data:image/"]').each(function () {
         var currentSrc = $(this).attr('src');
         // Reemplazar toda la cadena codificada en base64 con caracteres indefinidos
+        var newSrc = 'cid:img' + ($(this).index() + 1) + 'REPLACE_WITH_YOUR_UNDEFINED_STRING';
         var newSrc = 'cid:img' + ($(this).index() + 1) ;
         $(this).attr('src', newSrc);
     });
+
     // Ajustar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '2px');
     // Obtener el HTML modificado
