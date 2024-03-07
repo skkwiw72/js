@@ -74,8 +74,7 @@ $(document).ready(function () {
 $('#header-upload').change(function () {
     var file = this.files[0];
     if (file) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
+       
             // Establecer la cadena específica en lugar de la URL de datos
             var imgSrc = 'cid:header';  // Cambio aquí
             $('#frameHTML').contents().find('#template-img-header').attr("src", imgSrc);
@@ -83,7 +82,7 @@ $('#header-upload').change(function () {
             var altHeaderText = $('#input-alt-header').val();
             $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
         };
-        reader.readAsDataURL(file); // Leer el archivo como URL de datos
+         // Leer el archivo como URL de datos
     }
 });
 
@@ -91,8 +90,7 @@ $('#header-upload').change(function () {
 $('#title-upload').change(function () {
     var file = this.files[0];
     if (file) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
+        {
             // Establecer la cadena específica en lugar de la URL de datos
             var imgSrc = 'cid:title';  // Cambio aquí
             $('#frameHTML').contents().find('#template-img-title').attr("src", imgSrc);
@@ -100,7 +98,7 @@ $('#title-upload').change(function () {
             var altTitleText = $('#input-alt-title').val();
             $('#frameHTML').contents().find('#template-img-title').attr("alt", altTitleText);
         };
-        reader.readAsDataURL(file); // Leer el archivo como URL de datos
+      
     }
 });
 
