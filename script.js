@@ -163,19 +163,33 @@ $('#title-upload').change(function () {
   });
 
   // Copy to clipboard button
-  $('#clipboard-button').click(function () {
+ $('#clipboard-button').click(function () {
+    // Modificar completamente los atributos src en los elementos con data:image/png;base64
+    $('#frameHTML').contents().find('[src^="data:image/png;base64"]').each(function () {
+        var currentSrc = $(this).attr('src');
+        var newSrc = currentSrc.replace(/^data:image\/png;base64,/, 'cid:img' + ($(this).index() + 1));
+        $(this).attr('src', newSrc);
+    });
+
+    // Ajustar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '2px');
+
+    // Obtener el HTML modificado
     var elHtml = '<!DOCTYPE html>' + document.getElementById('frameHTML').contentWindow.document.getElementsByTagName('html')[0].outerHTML;
+
+    // Crear un elemento de entrada temporal y copiar el HTML al portapapeles
     var $temp = $("<input>");
     $("body").append($temp);
     $temp.val(elHtml).select();
     document.execCommand("copy");
     $temp.remove();
+
+    // Mostrar una notificación de éxito
     $.bootstrapGrowl("HTML generated with success!", { type: 'success', width: 350 });
+
+    // Restaurar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '-18px');
-  });
-
-
+});
 
   $('#input-custom-text').on('input', function () {
   var customText = $(this).val();
