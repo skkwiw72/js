@@ -3,22 +3,27 @@ var jsonHeader;
 var jsonTitle;
 var defaultTemplateHTML = '';
 var finalTemplateHTML = '';
+
 $(document).ready(function () {
   $.getJSON('assets/states.json', function (json) {
     jsonHeader = json['header'];
     jsonTitle = json['title'];
+
     $.each(jsonHeader, function (key, value) {
       $('#header').append($("<option></option>")
         .attr("value", value)
         .text(key));
     });
+
     $.each(jsonTitle, function (key, value) {
       $('#title').append($("<option></option>")
         .attr("value", value)
         .text(key));
     });
   });
+
   $('[data-toggle="tooltip"]').tooltip();
+
   // Toggle menu
   $("#menu-toggle").click(function (e) {
     e.preventDefault();
@@ -31,6 +36,7 @@ $(document).ready(function () {
       $("#toggle-button").attr("class", "mdi mdi-fullscreen-exit");
     }
   });
+
   // Quill
   var toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],
@@ -39,6 +45,7 @@ $(document).ready(function () {
     // [{ 'align': ['', 'center', 'right'] }],
     ['link', 'image']
   ];
+
   var quill = new Quill('#editor', {
     placeholder: 'Escribe el texto aqui',
     modules: {
@@ -46,6 +53,7 @@ $(document).ready(function () {
     },
     theme: 'snow'
   });
+
   quill.on('text-change', function (delta, oldDelta, source) {
     if (source == 'user') {
       $('#frameHTML').contents().find('#template-text').html($(".ql-editor").html());
@@ -55,10 +63,12 @@ $(document).ready(function () {
       $('#frameHTML').contents().find('#template-text').find("a").attr('target', '_blank');
     }
   });
+
   // HTML template
   $(function () {
     document.getElementById("template-content").innerHTML = '<iframe id="frameHTML" src="./templates/default.html" width="100%" height="100%" frameborder="0" />';
   });
+
   // Change image header
 $('#header-upload').change(function () {
   var file = this.files[0];
@@ -75,6 +85,7 @@ $('#header-upload').change(function () {
     reader.readAsDataURL(file); // Leer el archivo como URL de datos
   }
 });
+
 // Change image title
 $('#title-upload').change(function () {
   var file = this.files[0];
@@ -91,6 +102,7 @@ $('#title-upload').change(function () {
     reader.readAsDataURL(file); // Leer el archivo como URL de datos
   }
 });
+
   // Show/Hide Button
   $("#action-button").click(function (e) {
     if ($(this).is(':checked')) {
@@ -101,6 +113,9 @@ $('#title-upload').change(function () {
       $('#button-info').fadeOut();
     }
   });
+
+
+
   // Change button text
   $('#input-button').on('input', function (e) {
     console.log('1');
@@ -109,12 +124,14 @@ $('#title-upload').change(function () {
     } else
       $("#frameHTML").contents().find('#template-text-link').text('Não se esqueça do botão!');
   });
+
   // Change button link
   $('#input-link').on('input', function (e) {
     $("#frameHTML").contents().find('#template-button-link').attr("href", this.value);
     $("#frameHTML").contents().find('#template-button-text').attr("href", this.value);
     $("#frameHTML").contents().find('#template-text-link').attr("href", this.value);
   });
+
   // Change regards text
   $('#input-regards').on('input', function (e) {
     if (this.value)
@@ -122,6 +139,7 @@ $('#title-upload').change(function () {
     else
       $("#frameHTML").contents().find('#template-regards').html('<br/><br/>Regards, Stéfano Girardelli ❤');
   })
+
   // Export file HTML
   function downloadInnerHTML (filename, elId, mimeType) {
     $('#frameHTML').contents().find('#template-button').css('margin-top', '20px');
@@ -132,6 +150,7 @@ $('#title-upload').change(function () {
     link.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(elHtml));
     link.click();
   }
+
   // Download button
   $('#download-button').click(function () {
     var filename = prompt("Escribe el nombre con el que quieres que sea guardado tu archivo:", "");
@@ -144,38 +163,31 @@ $('#title-upload').change(function () {
   });
 
   // Copy to clipboard button
- $('#clipboard-button').click(function () {
-    // Modificar completamente los atributos src en los elementos con data:image/png;base64
-$('#clipboard-button').click(function () {
-    // Reemplazar completamente los atributos src en los elementos con data:image/png;base64
-    $('#frameHTML').contents().find('[src^="data:image/png;base64"]').each(function () {
-        var currentSrc = $(this).attr('src');
-        var newSrc = currentSrc.replace(/^data:image\/png;base64,/, 'cid:img' + ($(this).index() + 1));
-        // Reemplazar toda la cadena codificada en base64 con caracteres indefinidos
-        var newSrc = 'cid:img' + ($(this).index() + 1) + 'REPLACE_WITH_YOUR_UNDEFINED_STRING';
-        $(this).attr('src', newSrc);
-    });
-
-    // Ajustar el estilo CSS de los elementos p
+  $('#clipboard-button').click(function () {
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '2px');
-    // Obtener el HTML modificado
     var elHtml = '<!DOCTYPE html>' + document.getElementById('frameHTML').contentWindow.document.getElementsByTagName('html')[0].outerHTML;
-    // Crear un elemento de entrada temporal y copiar el HTML al portapapeles
     var $temp = $("<input>");
     $("body").append($temp);
     $temp.val(elHtml).select();
     document.execCommand("copy");
     $temp.remove();
-    // Mostrar una notificación de éxito
     $.bootstrapGrowl("HTML generated with success!", { type: 'success', width: 350 });
-    // Restaurar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '-18px');
-});
+  });
+
 
 
   $('#input-custom-text').on('input', function () {
   var customText = $(this).val();
   $("#frameHTML").contents().find('#template-custom-text').text(customText);
 });
+
+
+
+
+
+
+
   
+
 });
