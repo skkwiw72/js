@@ -122,22 +122,9 @@ $('#title-upload').change(function () {
     else
       $("#frameHTML").contents().find('#template-regards').html('<br/><br/>Regards, Stéfano Girardelli ❤');
   })
-
   // Export file HTML
   function downloadInnerHTML (filename, elId, mimeType) {
     $('#frameHTML').contents().find('#template-button').css('margin-top', '20px');
-  function downloadInnerHTML(filename, elId, mimeType) {
-    // Reemplazar completamente los atributos src en los elementos con imágenes codificadas en base64
-    $('#frameHTML').contents().find('[src^="data:image/"]').each(function () {
-        var currentSrc = $(this).attr('src');
-        // Reemplazar toda la cadena codificada en base64 con caracteres indefinidos
-        var newSrc = 'cid:img' + ($(this).index() + 1) + 'REPLACE_WITH_YOUR_UNDEFINED_STRING';
-        $(this).attr('src', newSrc);
-    });
-
-    // Ajustar el estilo CSS de los elementos p
-    $('#frameHTML').contents().find('#template-text p').css('margin-top', '2px');
-
     var elHtml = '<!DOCTYPE html>' + document.getElementById('frameHTML').contentWindow.document.getElementsByTagName(elId)[0].outerHTML;
     var link = document.createElement('a');
     mimeType = mimeType || 'text/plain';
@@ -145,37 +132,27 @@ $('#title-upload').change(function () {
     link.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(elHtml));
     link.click();
   }
-
   // Download button
   $('#download-button').click(function () {
-    // Restaurar el estilo CSS de los elementos p
-    $('#frameHTML').contents().find('#template-text p').css('margin-top', '-18px');
-}
-
-// Download button
-$('#download-button').click(function () {
     var filename = prompt("Escribe el nombre con el que quieres que sea guardado tu archivo:", "");
     if (filename != null) {
       downloadInnerHTML(filename + '.html', 'html', 'text/html');
       $.bootstrapGrowl("Your HTML file was downloaded with success!", { type: 'success', width: 350 });
-        downloadInnerHTML(filename + '.html', 'html', 'text/html');
-        $.bootstrapGrowl("Your HTML file was downloaded with success!", { type: 'success', width: 350 });
     } else {
       $.bootstrapGrowl("Please, choose a filename to save", { type: 'danger', width: 350 });
-        $.bootstrapGrowl("Please, choose a filename to save", { type: 'danger', width: 350 });
     }
   });
-});
 
+  // Copy to clipboard button
+ $('#clipboard-button').click(function () {
+    // Modificar completamente los atributos src en los elementos con data:image/png;base64
 $('#clipboard-button').click(function () {
     // Reemplazar completamente los atributos src en los elementos con data:image/png;base64
     $('#frameHTML').contents().find('[src^="data:image/png;base64"]').each(function () {
-    // Reemplazar completamente los atributos src en los elementos con imágenes codificadas en base64
-    $('#frameHTML').contents().find('[src^="data:image/"]').each(function () {
         var currentSrc = $(this).attr('src');
+        var newSrc = currentSrc.replace(/^data:image\/png;base64,/, 'cid:img' + ($(this).index() + 1));
         // Reemplazar toda la cadena codificada en base64 con caracteres indefinidos
         var newSrc = 'cid:img' + ($(this).index() + 1) + 'REPLACE_WITH_YOUR_UNDEFINED_STRING';
-        var newSrc = 'cid:img' + ($(this).index() + 1) ;
         $(this).attr('src', newSrc);
     });
 
@@ -194,6 +171,8 @@ $('#clipboard-button').click(function () {
     // Restaurar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '-18px');
 });
+
+
   $('#input-custom-text').on('input', function () {
   var customText = $(this).val();
   $("#frameHTML").contents().find('#template-custom-text').text(customText);
