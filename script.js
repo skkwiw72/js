@@ -71,36 +71,33 @@ $(document).ready(function () {
 
   // Change image header
 // Change header image
+// Change header image
 $('#header-upload').change(function () {
-    var file = this.files[0];
-    if (file) {
-       
-            // Establecer la cadena específica en lugar de la URL de datos
-            var imgSrc = 'cid:header';  // Cambio aquí
-            $('#frameHTML').contents().find('#template-img-header').attr("src", imgSrc);
-            // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
-            var altHeaderText = $('#input-alt-header').val();
-            $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
-        };
-         // Leer el archivo como URL de datos
-    }
+  var file = this.files[0];
+  if (file) {
+      // Establecer la cadena específica en lugar de la URL de datos
+      var imgSrc = 'cid:header';  // Cambio aquí
+      $('#frameHTML').contents().find('#template-img-header').attr("src", imgSrc);
+      // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
+      var altHeaderText = $('#input-alt-header').val();
+      $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
+  }
+  // Leer el archivo como URL de datos
 });
 
 // Change image title
 $('#title-upload').change(function () {
-    var file = this.files[0];
-    if (file) {
-        {
-            // Establecer la cadena específica en lugar de la URL de datos
-            var imgSrc = 'cid:title';  // Cambio aquí
-            $('#frameHTML').contents().find('#template-img-title').attr("src", imgSrc);
-            // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" de la imagen titular
-            var altTitleText = $('#input-alt-title').val();
-            $('#frameHTML').contents().find('#template-img-title').attr("alt", altTitleText);
-        };
-      
-    }
+  var file = this.files[0];
+  if (file) {
+      // Establecer la cadena específica en lugar de la URL de datos
+      var imgSrc = 'cid:title';  // Cambio aquí
+      $('#frameHTML').contents().find('#template-img-title').attr("src", imgSrc);
+      // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" de la imagen titular
+      var altTitleText = $('#input-alt-title').val();
+      $('#frameHTML').contents().find('#template-img-title').attr("alt", altTitleText);
+  }
 });
+
 
 
   // Show/Hide Button
