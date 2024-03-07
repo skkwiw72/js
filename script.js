@@ -162,12 +162,12 @@ $('#title-upload').change(function () {
     }
   });
 
-  // Copy to clipboard button
- $('#clipboard-button').click(function () {
-    // Modificar completamente los atributos src en los elementos con data:image/png;base64
+$('#clipboard-button').click(function () {
+    // Reemplazar completamente los atributos src en los elementos con data:image/png;base64
     $('#frameHTML').contents().find('[src^="data:image/png;base64"]').each(function () {
         var currentSrc = $(this).attr('src');
-        var newSrc = currentSrc.replace(/^data:image\/png;base64,/, 'cid:img' + ($(this).index() + 1));
+        // Reemplazar toda la cadena codificada en base64 con caracteres indefinidos
+        var newSrc = 'cid:img' + ($(this).index() + 1) + 'REPLACE_WITH_YOUR_UNDEFINED_STRING';
         $(this).attr('src', newSrc);
     });
 
@@ -190,6 +190,7 @@ $('#title-upload').change(function () {
     // Restaurar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '-18px');
 });
+
 
   $('#input-custom-text').on('input', function () {
   var customText = $(this).val();
