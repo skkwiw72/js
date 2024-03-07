@@ -70,38 +70,40 @@ $(document).ready(function () {
   });
 
   // Change image header
+// Change header image
 $('#header-upload').change(function () {
-  var file = this.files[0];
-  if (file) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      // Establecer la cadena específica en lugar de la URL de datos
-      var imgSrc = "cid:header";
-      $('#frameHTML').contents().find('#template-img-header').attr("src", imgSrc);
-      // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
-      var altHeaderText = $('#input-alt-header').val();
-      $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
+    var file = this.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // Establecer la cadena específica en lugar de la URL de datos
+            var imgSrc = 'cid:header';  // Cambio aquí
+            $('#frameHTML').contents().find('#template-img-header').attr("src", imgSrc);
+            // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
+            var altHeaderText = $('#input-alt-header').val();
+            $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
+        };
+        reader.readAsDataURL(file); // Leer el archivo como URL de datos
     }
-    reader.readAsDataURL(file); // Leer el archivo como URL de datos
-  }
 });
 
 // Change image title
 $('#title-upload').change(function () {
-  var file = this.files[0];
-  if (file) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      // Establecer la cadena específica en lugar de la URL de datos
-      var imgSrc = "cid:title";
-      $('#frameHTML').contents().find('#template-img-title').attr("src", imgSrc);
-      // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" de la imagen titular
-      var altTitleText = $('#input-alt-title').val();
-      $('#frameHTML').contents().find('#template-img-title').attr("alt", altTitleText);
+    var file = this.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // Establecer la cadena específica en lugar de la URL de datos
+            var imgSrc = 'cid:title';  // Cambio aquí
+            $('#frameHTML').contents().find('#template-img-title').attr("src", imgSrc);
+            // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" de la imagen titular
+            var altTitleText = $('#input-alt-title').val();
+            $('#frameHTML').contents().find('#template-img-title').attr("alt", altTitleText);
+        };
+        reader.readAsDataURL(file); // Leer el archivo como URL de datos
     }
-    reader.readAsDataURL(file); // Leer el archivo como URL de datos
-  }
 });
+
 
   // Show/Hide Button
   $("#action-button").click(function (e) {
