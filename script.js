@@ -71,20 +71,66 @@ $(document).ready(function () {
 
   // Change image header
 $('#header-upload').change(function () {
-  var file = this.files[0];
-  if (file) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      // Establecer la cadena específica en lugar de la URL de datos
+    var file = this.files[0];
+    if (file) {
+      // Eliminar la lectura del archivo como URL de datos
+      // reader.readAsDataURL(file);
+  
+      // Establecer "cid:header" como la fuente de la imagen
       var imgSrc = "cid:header";
       $('#frameHTML').contents().find('#template-img-header').attr("src", imgSrc);
+  
       // Capturar el texto alternativo ingresado y asignarlo como atributo "alt" del encabezado
       var altHeaderText = $('#input-alt-header').val();
       $('#frameHTML').contents().find('#template-img-header').attr("alt", altHeaderText);
     }
-    reader.readAsDataURL(file); // Leer el archivo como URL de datos
-  }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Change image title
 $('#title-upload').change(function () {
@@ -164,14 +210,31 @@ $('#title-upload').change(function () {
 
   // Copy to clipboard button
   $('#clipboard-button').click(function () {
+    // Reemplazar completamente los atributos src en los elementos con imágenes codificadas en base64
+    $('#frameHTML').contents().find('[src^="data:image/"]').each(function () {
+        var currentSrc = $(this).attr('src');
+        // Reemplazar toda la cadena codificada en base64 con caracteres indefinidos
+        var newSrc = 'cid:img' + ($(this).index() + 1) + 'REPLACE_WITH_YOUR_UNDEFINED_STRING';
+        $(this).attr('src', newSrc);
+    });
+
+    // Ajustar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '2px');
+
+    // Obtener el HTML modificado
     var elHtml = '<!DOCTYPE html>' + document.getElementById('frameHTML').contentWindow.document.getElementsByTagName('html')[0].outerHTML;
+
+    // Crear un elemento de entrada temporal y copiar el HTML al portapapeles
     var $temp = $("<input>");
     $("body").append($temp);
     $temp.val(elHtml).select();
     document.execCommand("copy");
     $temp.remove();
+
+    // Mostrar una notificación de éxito
     $.bootstrapGrowl("HTML generated with success!", { type: 'success', width: 350 });
+
+    // Restaurar el estilo CSS de los elementos p
     $('#frameHTML').contents().find('#template-text p').css('margin-top', '-18px');
   });
 
